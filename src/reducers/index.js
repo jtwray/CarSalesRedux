@@ -1,3 +1,7 @@
+import{ ADD_FEATURE} from '../actions'
+import{ REMOVE_FEATURE} from '../actions'
+
+
 const initialState = {
 
     additionalPrice: 0,
@@ -19,7 +23,7 @@ const initialState = {
 
 const reducer=(state = initialState, action)=>{
     switch (action.type) {
-        case "ADD_FEAT":
+        case ADD_FEATURE:
             const newFeature = action.payload;
             return {
                 ...state,
