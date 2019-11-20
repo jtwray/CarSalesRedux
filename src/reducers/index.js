@@ -1,5 +1,5 @@
-import{ ADD_FEATURE} from '../actions'
-import{ REMOVE_FEATURE} from '../actions'
+import { ADD_FEATURE } from '../actions'
+import { REMOVE_FEATURE } from '../actions'
 
 
 const initialState = {
@@ -21,16 +21,27 @@ const initialState = {
 
 };
 
-const reducer=(state = initialState, action)=>{
+const reducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_FEATURE:
+        case ADD_FEATURE: {
             const newFeature = action.payload;
             return {
                 ...state,
-                featuresList: [...state.featuresList, newFeature]
+                car:{ ...state.car, features: [...state.car.features, newFeature]}
             }
+        }
+    
+        case REMOVE_FEATURE: {
+            const fLCopy = state.car.features.filter(feat =>
+                feat.id !== action.payload);
+            return {
+                ...state,
+                car: {...state.car, features: fLCopy}
+            }
+        }
         default:
             return state;
     }
 }
+
 export default reducer;
