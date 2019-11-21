@@ -10,15 +10,23 @@ import Total from './components/Total';
 
 const App = (props) => {
 
+console.log("props.additionalFeatures:",props.additionalFeatures)
+console.log("props.dispatch:",props.dispatch)
+console.log("props:",props)
 
-  const removeFeature = item => {
-    props.removeFeature(item)
+
+
+  const removeFeature = feature => {
+   props.removeFeature(feature)
     // dispatch an action here to remove an item
+    // props.dispatch({type:"REMOVE_FEATURE",payload:feature})
   };
 
-  const buyItem = item => {
-    props.addFeature(item)
+  const addFeature = feature => {
     // dipsatch an action here to add an item
+    // props.dispatch({type:"ADD_FEATURE",payload:feature})
+   props.addFeature(feature);
+   console.log(props.car.features)
   };
 
   return (
@@ -28,32 +36,41 @@ const App = (props) => {
         <AddedFeatures removeFeature={removeFeature} car={props.car} />
       </div>
       <div className="box">
-        <AdditionalFeatures addFeature={buyItem} additionalFeatures={props.additionalFeatures} />
+        <AdditionalFeatures addFeature={addFeature} additionalFeatures={props.additionalFeatures} />
         <Total car={props.car} additionalPrice={props.additionalPrice} />
       </div>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { feature } = ownProps
-  return{
-  addFeature:(feature)=>{dispatch({type: "ADD_FEATURE", feature:feature})},
-  removeFeature:(feature)=>{dispatch({type:"REMOVE_FEATURE", feature:feature})}
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   const { feature } = ownProps
+//   return{
+//   addFeature:(feature)=>{dispatch({type: "ADD_FEATURE", feature:feature})},
+//   removeFeature:(feature)=>{dispatch({type:"REMOVE_FEATURE", feature:feature})}
 
-}}
+// }}
 
-const mapStateToProps = ({ additionalFeatures, additionalPrice, car }) => {
-  return {
-    additionalFeatures, additionalPrice, car
-  }
-}
-
-// const mapStateToProps = state => {
+// const mapStateToProps = ({ additionalFeatures, additionalPrice, car }) => {
 //   return {
-//     additionalFeatures: state.additionalFeatures,
-//     additionalPrice: state.additionalPrice,
-//     car: state.car,
+//     additionalFeatures, additionalPrice, car
 //   }
 // }
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+const mapStateToProps = state => {
+  return {
+    additionalFeatures: state.additionalFeatures,
+    additionalPrice: state.additionalPrice,
+    car: state.car,
+  }
+}
+// const mapDispatchToProps = (dispatch,ownProps) => {
+//   return {
+    
+//     // dispatching plain actions
+//     addFeature: () => dispatch({ type: 'ADD_FEATURE' }),
+//     removeFeature: (feature) => dispatch({ type: 'REMOVE_FEATURE' ,payload:feature}),
+   
+//   }
+// }
+export default connect(mapStateToProps,{addFeature,removeFeature})(App);

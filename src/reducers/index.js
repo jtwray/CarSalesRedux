@@ -10,7 +10,7 @@ const initialState = {
         name: '2019 Ford Mustang',
         image:
             'https://cdn.motor1.com/images/mgl/0AN2V/s1/2019-ford-mustang-bullitt.jpg',
-        features: []
+        features: [],
     },
     additionalFeatures: [
         { id: 1, name: 'V-6 engine', price: 1500 },
@@ -25,9 +25,13 @@ const reducer = (state=initialState, action) => {
     switch (action.type) {
         case ADD_FEATURE: {
             const newFeature = action.payload;
+          
+            let remainingFeatures;
+           
             return {
                 ...state,
-                car:{ ...state.car, features: [...state.car.features, newFeature]}
+                car:{ ...state.car, features: [...state.car.features, newFeature]},
+                additionalPrice:[...state.additionalPrice+newFeature.price]
             }
         }
     
