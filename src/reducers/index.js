@@ -21,26 +21,29 @@ const initialState = {
 
 };
 
-const reducer = (state=initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_FEATURE: {
             const newFeature = action.payload;
-          
-            let remainingFeatures;
-           
+
+            let remainingFeatures= [...state.additionalFeatures].filter(feat => feat.id !== action.payload.id);
+
             return {
                 ...state,
-                car:{ ...state.car, features: [...state.car.features, newFeature]},
-                additionalPrice:[...state.additionalPrice+newFeature.price]
+                car: { ...state.car, features: [...state.car.features, newFeature] },
+                additionalFeatures:[...remainingFeatures],
+                 additionalPrice: state.additionalPrice + newFeature.price,
             }
         }
-    
+
         case REMOVE_FEATURE: {
             const fLCopy = state.car.features.filter(feat =>
-                feat.id !== action.payload);
+                feat.id !== action.payload.id);
             return {
                 ...state,
-                car: {...state.car, features: fLCopy}
+                car: { ...state.car, features: fLCopy },
+                additionalFeatures: [...state.additionalFeatures, action.payload],
+                additionalPrice: state.additionalPrice- action.payload.price,
             }
         }
         default:
